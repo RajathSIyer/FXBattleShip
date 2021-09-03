@@ -3,7 +3,7 @@ package application;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
 import java.util.*;
@@ -13,8 +13,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
-			Scene scene = new Scene(root,400,400);
+			Pane root = (Pane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
+			Scene scene = new Scene(root,900,700);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -24,7 +24,7 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
-		int turn = 0;
+		/*int turn = 0;
 		int[][] array = {{1, 1}, {4, 1}};
 		int[][] array2 = {{5, 1}, {5, 3}};
 		Ship s = new Ship(4, array, 1);
@@ -117,7 +117,7 @@ public class Main extends Application {
 			
 			// g.p2Board.printBoard();
 		}
-		in.close();
-		// launch(args);
+		in.close();*/
+		launch(args);
 	}
 }
