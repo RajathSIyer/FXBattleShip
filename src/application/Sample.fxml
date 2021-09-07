@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="655.0" prefWidth="958.0" styleClass="pane" stylesheets="@application.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<Pane prefHeight="884.0" prefWidth="1025.0" styleClass="pane" stylesheets="@application.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <children>
       <GridPane layoutX="72.0" layoutY="46.0" prefHeight="564.0" prefWidth="772.0" style="-fx-grid-lines-visible: True;" stylesheets="@application.css">
         <columnConstraints>
@@ -290,11 +290,11 @@
                </font></Button>
          </children>
       </GridPane>
-      <TextArea fx:id="prompt" layoutX="22.0" layoutY="197.0" prefHeight="130.0" prefWidth="915.0" promptText="Enter the start and end position of your ship (row,col) and press submit           EX: 2,3;5,1">
+      <TextArea fx:id="prompt" layoutX="72.0" layoutY="634.0" prefHeight="130.0" prefWidth="915.0" promptText="Enter the start and end position of your ship (row,col) and press submit           EX: 2,3;5,1">
          <font>
             <Font size="36.0" />
          </font>
       </TextArea>
-      <Button fx:id="submitButton" layoutX="741.0" layoutY="327.0" mnemonicParsing="false" onAction="#setupAction" prefHeight="79.0" prefWidth="196.0" text="Submit" />
+      <Button fx:id="submitButton" layoutX="791.0" layoutY="764.0" mnemonicParsing="false" onAction="#setupAction" prefHeight="79.0" prefWidth="196.0" text="Submit" />
    </children>
 </Pane>

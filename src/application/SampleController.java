@@ -141,7 +141,7 @@ public class SampleController {
 	@FXML
 	private TextArea prompt;
 	
-	private int placementDecision = 0; 
+	private int placementDecision = 5; // length of ship that is about to be placed
 	private int placementTurn = 0;
 
 	Hashtable<Integer,Button> mappingDict = new Hashtable<Integer, Button>();
@@ -215,13 +215,88 @@ public class SampleController {
 		mappingDict.put(61,button61);
 		mappingDict.put(62,button62);
 		mappingDict.put(63,button63);
+		HashMap<int[], Integer> posToNum = generatePosToNumDict();
 		//END OF "SPAIN"[1:]
 		System.out.println(mappingDict.get(23).getClass());
-		mappingDict.get(23).setStyle("-fx-background-color: MediumSeaGreen");
+		
 		String[] temp_pos_st = new String[2];	
-		String[] temp_pos_ed = new String[2];
+		String[] temp_pos_end = new String[2];
 		temp_pos_st = prompt.getText().split(";")[0].split(",");
-		temp_pos_ed = prompt.getText().split(";")[1].split(",");
+		temp_pos_end = prompt.getText().split(";")[1].split(",");
+		int row_start, row_end, col_start, col_end;
+		while (true) {
+			try {
+				row_start = Integer.parseInt(temp_pos_st[0]);
+				row_end = Integer.parseInt(temp_pos_end[0]);
+				col_start = Integer.parseInt(temp_pos_st[1]);
+				col_end = Integer.parseInt(temp_pos_end[1]);
+				// if (((row_start != row_end) ^ (col_start != col_end)) && validCoordinates(row_start, row_end, col_start, col_end))
+				break;
+			} catch (Exception f) {
+				System.out.println("Invalid coordinates. Try again: ");
+			}
+		}
+		int length;
+		boolean horizontalShip = false;
+		if (((row_start == row_end) && (col_start == col_end)) || !validCoordinates(row_start, row_end, col_start, col_end)) {
+			// tell user that these coordinates are invalid
+			System.out.println("Coordinates are invalid. :/");
+			temp_pos_st = prompt.getText().split(";")[0].split(",");
+			temp_pos_end = prompt.getText().split(";")[1].split(",");
+			row_start = Integer.parseInt(temp_pos_st[0]);
+			row_end = Integer.parseInt(temp_pos_end[0]);
+			col_start = Integer.parseInt(temp_pos_st[1]);
+			col_end = Integer.parseInt(temp_pos_end[1]);
+		} else {
+			if (row_start == row_end) {
+				length = Math.abs(col_end - col_start) + 1;  // horizontal
+				horizontalShip = true;
+			} else {
+				length = Math.abs(row_end - row_start) + 1;  // vertical
+			}
+			// check if length is correct
+			if (length != placementDecision) {
+				// tell user that these coordinates are invalid
+			}
+		}
+		
+		// coordinates are good
+		row_start -= 1;
+		col_start -=1;
+		row_end -=1;
+		col_end -= 1;
+		int[] startingPos = {row_start, col_start};
+		int[] endingPos = {row_end, col_end};
+		int square1 = 0, square2 = 0;
+		System.out.println(Arrays.toString(startingPos));
+		for (int[] key: posToNum.keySet()) {
+			if (Arrays.equals(key, startingPos)) {
+				square1 = posToNum.get(key);
+				break;
+			}
+		}
+		for (int[] key: posToNum.keySet()) {
+			if (Arrays.equals(key, endingPos)) {
+				square2 = posToNum.get(key);
+				break;
+			}
+		}
+		posToNum.entrySet().forEach(entry -> {
+		    System.out.println(Arrays.toString(entry.getKey()) + " " + entry.getValue());
+		});
+		
+		if (horizontalShip) {
+			for (int i = square1; i < square2 + 1; i++) {
+				mappingDict.get(i).setStyle("-fx-background-color: MediumSeaGreen");
+			}
+		} else {
+			for (int i = square1; i < square2 + 1; i++) {
+				mappingDict.get(i).setStyle("-fx-background-color: MediumSeaGreen");
+				i += Board.size - 1;
+			}
+		}
+		placementDecision--;
+		
 		/*int[] pos = {Integer.parseInt(temp_pos[0]),Integer.parseInt(temp_pos[1])};
 		switch(placementDecision)
 		{
@@ -249,7 +324,7 @@ public class SampleController {
 			placementDecision = 0;
 		}*/
 		System.out.println(Arrays.toString(temp_pos_st));
-		System.out.println(Arrays.toString(temp_pos_ed));
+		System.out.println(Arrays.toString(temp_pos_end));
 		}
 	
 	@FXML
@@ -457,6 +532,151 @@ public class SampleController {
 		}
 		int[] temp_pos = {row,col};
 		return temp_pos;
+	}
+	
+	public boolean validCoordinates(int a, int b, int c, int d) {
+		/**
+		 * Return True iff all parameters are between 1 and Board.size (inclusive).
+		 */
+		int[] array = {a, b, c, d};
+		for (int num: array) {
+			if(num < 1 || num > Board.size)
+				return false;
+		}
+		return true;
+	}
+	
+	public HashMap<int[], Integer> generatePosToNumDict() {
+		HashMap<int[], Integer> posToNum = new HashMap<int[], Integer>();
+		int[] array0 = {0, 0};
+		posToNum.put(array0, 0);
+		int[] array1 = {0, 1};
+		posToNum.put(array1, 1);
+		int[] array2 = {0, 2};
+		posToNum.put(array2, 2);
+		int[] array3 = {0, 3};
+		posToNum.put(array3, 3);
+		int[] array4 = {0, 4};
+		posToNum.put(array4, 4);
+		int[] array5 = {0, 5};
+		posToNum.put(array5, 5);
+		int[] array6 = {0, 6};
+		posToNum.put(array6, 6);
+		int[] array7 = {0, 7};
+		posToNum.put(array7, 7);
+		int[] array8 = {1, 0};
+		posToNum.put(array8, 8);
+		int[] array9 = {1, 1};
+		posToNum.put(array9, 9);
+		int[] array10 = {1, 2};
+		posToNum.put(array10, 10);
+		int[] array11 = {1, 3};
+		posToNum.put(array11, 11);
+		int[] array12 = {1, 4};
+		posToNum.put(array12, 12);
+		int[] array13 = {1, 5};
+		posToNum.put(array13, 13);
+		int[] array14 = {1, 6};
+		posToNum.put(array14, 14);
+		int[] array15 = {1, 7};
+		posToNum.put(array15, 15);
+		int[] array16 = {2, 0};
+		posToNum.put(array16, 16);
+		int[] array17 = {2, 1};
+		posToNum.put(array17, 17);
+		int[] array18 = {2, 2};
+		posToNum.put(array18, 18);
+		int[] array19 = {2, 3};
+		posToNum.put(array19, 19);
+		int[] array20 = {2, 4};
+		posToNum.put(array20, 20);
+		int[] array21 = {2, 5};
+		posToNum.put(array21, 21);
+		int[] array22 = {2, 6};
+		posToNum.put(array22, 22);
+		int[] array23 = {2, 7};
+		posToNum.put(array23, 23);
+		int[] array24 = {3, 0};
+		posToNum.put(array24, 24);
+		int[] array25 = {3, 1};
+		posToNum.put(array25, 25);
+		int[] array26 = {3, 2};
+		posToNum.put(array26, 26);
+		int[] array27 = {3, 3};
+		posToNum.put(array27, 27);
+		int[] array28 = {3, 4};
+		posToNum.put(array28, 28);
+		int[] array29 = {3, 5};
+		posToNum.put(array29, 29);
+		int[] array30 = {3, 6};
+		posToNum.put(array30, 30);
+		int[] array31 = {3, 7};
+		posToNum.put(array31, 31);
+		int[] array32 = {4, 0};
+		posToNum.put(array32, 32);
+		int[] array33 = {4, 1};
+		posToNum.put(array33, 33);
+		int[] array34 = {4, 2};
+		posToNum.put(array34, 34);
+		int[] array35 = {4, 3};
+		posToNum.put(array35, 35);
+		int[] array36 = {4, 4};
+		posToNum.put(array36, 36);
+		int[] array37 = {4, 5};
+		posToNum.put(array37, 37);
+		int[] array38 = {4, 6};
+		posToNum.put(array38, 38);
+		int[] array39 = {4, 7};
+		posToNum.put(array39, 39);
+		int[] array40 = {5, 0};
+		posToNum.put(array40, 40);
+		int[] array41 = {5, 1};
+		posToNum.put(array41, 41);
+		int[] array42 = {5, 2};
+		posToNum.put(array42, 42);
+		int[] array43 = {5, 3};
+		posToNum.put(array43, 43);
+		int[] array44 = {5, 4};
+		posToNum.put(array44, 44);
+		int[] array45 = {5, 5};
+		posToNum.put(array45, 45);
+		int[] array46 = {5, 6};
+		posToNum.put(array46, 46);
+		int[] array47 = {5, 7};
+		posToNum.put(array47, 47);
+		int[] array48 = {6, 0};
+		posToNum.put(array48, 48);
+		int[] array49 = {6, 1};
+		posToNum.put(array49, 49);
+		int[] array50 = {6, 2};
+		posToNum.put(array50, 50);
+		int[] array51 = {6, 3};
+		posToNum.put(array51, 51);
+		int[] array52 = {6, 4};
+		posToNum.put(array52, 52);
+		int[] array53 = {6, 5};
+		posToNum.put(array53, 53);
+		int[] array54 = {6, 6};
+		posToNum.put(array54, 54);
+		int[] array55 = {6, 7};
+		posToNum.put(array55, 55);
+		int[] array56 = {7, 0};
+		posToNum.put(array56, 56);
+		int[] array57 = {7, 1};
+		posToNum.put(array57, 57);
+		int[] array58 = {7, 2};
+		posToNum.put(array58, 58);
+		int[] array59 = {7, 3};
+		posToNum.put(array59, 59);
+		int[] array60 = {7, 4};
+		posToNum.put(array60, 60);
+		int[] array61 = {7, 5};
+		posToNum.put(array61, 61);
+		int[] array62 = {7, 6};
+		posToNum.put(array62, 62);
+		int[] array63 = {7, 7};
+		posToNum.put(array63, 63);
+		return posToNum;
 	}
 	
 }
