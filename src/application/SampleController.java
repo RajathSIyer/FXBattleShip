@@ -221,10 +221,18 @@ public class SampleController {
 		
 		String[] temp_pos_st = new String[2];	
 		String[] temp_pos_end = new String[2];
-		temp_pos_st = prompt.getText().split(";")[0].split(",");
-		temp_pos_end = prompt.getText().split(";")[1].split(",");
-		int row_start, row_end, col_start, col_end;
-		while (true) {
+		boolean validCoordinates;
+		
+		try {
+			temp_pos_st = prompt.getText().split(";")[0].split(",");
+			temp_pos_end = prompt.getText().split(";")[1].split(",");
+			validCoordinates = true;
+		} catch (Exception f) {
+			validCoordinates = false;
+		}
+		
+		int row_start = 0, row_end = 0, col_start = 0, col_end = 0;
+		while (validCoordinates) {
 			try {
 				row_start = Integer.parseInt(temp_pos_st[0]);
 				row_end = Integer.parseInt(temp_pos_end[0]);
@@ -238,15 +246,17 @@ public class SampleController {
 		}
 		int length;
 		boolean horizontalShip = false;
-		if (((row_start == row_end) && (col_start == col_end)) || !validCoordinates(row_start, row_end, col_start, col_end)) {
+		if (!validCoordinates || (!validCoordinates(row_start, row_end, col_start, col_end))) {
 			// tell user that these coordinates are invalid
 			System.out.println("Coordinates are invalid. :/");
+			/**
 			temp_pos_st = prompt.getText().split(";")[0].split(",");
 			temp_pos_end = prompt.getText().split(";")[1].split(",");
 			row_start = Integer.parseInt(temp_pos_st[0]);
 			row_end = Integer.parseInt(temp_pos_end[0]);
 			col_start = Integer.parseInt(temp_pos_st[1]);
 			col_end = Integer.parseInt(temp_pos_end[1]);
+			**/
 		} else {
 			if (row_start == row_end) {
 				length = Math.abs(col_end - col_start) + 1;  // horizontal
@@ -256,75 +266,78 @@ public class SampleController {
 			}
 			// check if length is correct
 			if (length != placementDecision) {
+				validCoordinates = false;
 				// tell user that these coordinates are invalid
 			}
 		}
 		
 		// coordinates are good
-		row_start -= 1;
-		col_start -=1;
-		row_end -=1;
-		col_end -= 1;
-		int[] startingPos = {row_start, col_start};
-		int[] endingPos = {row_end, col_end};
-		int square1 = 0, square2 = 0;
-		System.out.println(Arrays.toString(startingPos));
-		for (int[] key: posToNum.keySet()) {
-			if (Arrays.equals(key, startingPos)) {
-				square1 = posToNum.get(key);
-				break;
+		if (validCoordinates) {
+			row_start -= 1;
+			col_start -=1;
+			row_end -=1;
+			col_end -= 1;
+			int[] startingPos = {row_start, col_start};
+			int[] endingPos = {row_end, col_end};
+			int square1 = 0, square2 = 0;
+			System.out.println(Arrays.toString(startingPos));
+			for (int[] key: posToNum.keySet()) {
+				if (Arrays.equals(key, startingPos)) {
+					square1 = posToNum.get(key);
+					break;
+				}
 			}
-		}
-		for (int[] key: posToNum.keySet()) {
-			if (Arrays.equals(key, endingPos)) {
-				square2 = posToNum.get(key);
-				break;
+			for (int[] key: posToNum.keySet()) {
+				if (Arrays.equals(key, endingPos)) {
+					square2 = posToNum.get(key);
+					break;
+				}
 			}
-		}
-		posToNum.entrySet().forEach(entry -> {
-		    System.out.println(Arrays.toString(entry.getKey()) + " " + entry.getValue());
-		});
-		
-		if (horizontalShip) {
-			for (int i = square1; i < square2 + 1; i++) {
-				mappingDict.get(i).setStyle("-fx-background-color: MediumSeaGreen");
+			posToNum.entrySet().forEach(entry -> {
+			    System.out.println(Arrays.toString(entry.getKey()) + " " + entry.getValue());
+			});
+			
+			if (horizontalShip) {
+				for (int i = Math.min(square1, square2); i < Math.max(square1, square2) + 1; i++) {
+					mappingDict.get(i).setStyle("-fx-background-color: MediumSeaGreen");
+				}
+			} else {
+				for (int i = Math.min(square1, square2); i < Math.max(square1, square2) + 1; i++) {
+					mappingDict.get(i).setStyle("-fx-background-color: MediumSeaGreen");
+					i += Board.size - 1;
+				}
 			}
-		} else {
-			for (int i = square1; i < square2 + 1; i++) {
-				mappingDict.get(i).setStyle("-fx-background-color: MediumSeaGreen");
-				i += Board.size - 1;
+			placementDecision--;
+			
+			/*int[] pos = {Integer.parseInt(temp_pos[0]),Integer.parseInt(temp_pos[1])};
+			switch(placementDecision)
+			{
+			case 0{
+				
 			}
-		}
-		placementDecision--;
-		
-		/*int[] pos = {Integer.parseInt(temp_pos[0]),Integer.parseInt(temp_pos[1])};
-		switch(placementDecision)
-		{
-		case 0{
 			
-		}
-		
-		case 1{
+			case 1{
+				
+			}
 			
-		}
-		
-		case 2{
+			case 2{
+				
+			}
 			
-		}
-		
-		case 3{
+			case 3{
+				
+			}
 			
-		}
-		
-		case 4{
+			case 4{
+				
+			}
 			
-		}
-		
-		case 5{
-			placementDecision = 0;
-		}*/
-		System.out.println(Arrays.toString(temp_pos_st));
-		System.out.println(Arrays.toString(temp_pos_end));
+			case 5{
+				placementDecision = 0;
+			}*/
+			System.out.println(Arrays.toString(temp_pos_st));
+			System.out.println(Arrays.toString(temp_pos_end));
+			}
 		}
 	
 	@FXML

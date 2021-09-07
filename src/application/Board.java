@@ -51,7 +51,7 @@ public class Board{
 		}
 	}
 	
-	public boolean placeBomb(int row, int col) { // attack opponets ship
+	public boolean placeBomb(int row, int col) { // attack opponents ship
 		/**
 		 * Return True iff ship was hit.
 		 */
