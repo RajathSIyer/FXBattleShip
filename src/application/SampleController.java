@@ -145,18 +145,31 @@ public class SampleController {
 	@FXML
 	private TextArea feedbackBox;
 	@FXML 
-	private Button endTurn;
+	private Button endTurnButton;
 	
 	private int placementDecision = 5; // length of ship that is about to be placed
 	private int placementTurn = 0;
 	private int feedback = 0;
 	Hashtable<Integer,Button> mappingDict = new Hashtable<Integer, Button>();
 	
-
+	@FXML
+	private void handleEndTurn(ActionEvent e) {
+		// maybe move this code to setupAction
+		System.out.println("Clicked end turn.");
+		SceneController a = new SceneController();
+		try {
+			a.switchPlayerScene(e);
+		} catch (Exception f) {
+			System.out.println("Switching scenes didn't work.");
+		}
+		
+	}
+	
 	@FXML
 	private void setupAction(ActionEvent e) 
 	{
 		System.out.println(((Node)e.getSource()).getScene().toString());
+		System.out.println(e.getSource());
 		//START OF "SPAIN"[1:]
 		mappingDict.put(0,button0);
 		mappingDict.put(1,button1);
@@ -236,6 +249,8 @@ public class SampleController {
 			validCoordinates = true;
 		} catch (Exception f) {
 			validCoordinates = false;
+			feedback = 1;
+			settingText(feedback);
 		}
 		
 		int row_start = 0, row_end = 0, col_start = 0, col_end = 0;
@@ -248,13 +263,19 @@ public class SampleController {
 				// if (((row_start != row_end) ^ (col_start != col_end)) && validCoordinates(row_start, row_end, col_start, col_end))
 				break;
 			} catch (Exception f) {
+				validCoordinates = false;
 				System.out.println("Invalid coordinates. Try again: ");
+				feedback = 1;
+				settingText(feedback);
 			}
 		}
 		int length;
 		boolean horizontalShip = false;
 		if (!validCoordinates || (!validCoordinates(row_start, row_end, col_start, col_end))) {
 			// tell user that these coordinates are invalid
+			validCoordinates = false;
+			feedback = 1;
+			settingText(feedback);
 			System.out.println("Coordinates are invalid. :/");
 		} else {
 			if (row_start == row_end) {
@@ -273,7 +294,7 @@ public class SampleController {
 			}
 		}
 		
-		// coordinates are good
+		// if coordinates are good
 		if (validCoordinates) {
 			feedback = 0;
 			settingText(feedback);
@@ -314,6 +335,11 @@ public class SampleController {
 			placementDecision--;
 			System.out.println(Arrays.toString(temp_pos_st));
 			System.out.println(Arrays.toString(temp_pos_end));
+			if (placementDecision == 0) {
+				// this player has placed all their ships
+				System.out.println("You have placed all 5 ships.");
+				// wait for them to click End turn?
+			}
 			}
 		}
 	
@@ -676,8 +702,10 @@ public class SampleController {
 		feedbackBox.setText(" ");
 		return;
 		}
-		feedbackBox.setText("Invalid Coordinate");
+		feedbackBox.setText("Invalid Coordinate. Ship must be of length " + placementDecision);
 	}
+	
+	
 	
 }
 

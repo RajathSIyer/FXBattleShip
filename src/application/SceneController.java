@@ -14,7 +14,10 @@ public class SceneController {
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
-	private int sceneSwitch = 0;
+	private static int sceneSwitch = 0;
+	
+	public SceneController() {
+		}
 	
 	public void switchScene(ActionEvent event) throws IOException
 	{
@@ -27,18 +30,14 @@ public class SceneController {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		
-		
 	}
-	public void switchPlayerScene(ActionEvent event) throws IOException
-	{
-			if (sceneSwitch == 0)
-			{
-			Parent root = FXMLLoader.load(getClass().getResource("PlayerOne.fxml"));
-			sceneSwitch = 1;
-			}
-			else {
-			sceneSwitch = 0;
-			Parent root = FXMLLoader.load(getClass().getResource("PlayerTwo.fxml"));
+	public void switchPlayerScene(ActionEvent event) throws IOException{
+			if (sceneSwitch == 0){
+				Parent root = FXMLLoader.load(getClass().getResource("PlayerOne.fxml"));
+				sceneSwitch = 1;
+			} else {
+				sceneSwitch = 0;
+				Parent root = FXMLLoader.load(getClass().getResource("PlayerTwo.fxml"));
 			}
 			
 			Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -48,6 +47,8 @@ public class SceneController {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		
-		
 	}
+	
+
+	
 }
