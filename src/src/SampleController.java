@@ -1,13 +1,11 @@
-package application;
+package application.src;
 
 import java.lang.reflect.Array;
 import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-
 
 public class SampleController {
 	@FXML
@@ -142,21 +140,16 @@ public class SampleController {
 	private Button submitButton;
 	@FXML
 	private TextArea prompt;
-	@FXML
-	private TextArea feedbackBox;
-	@FXML 
-	private Button endTurn;
 	
 	private int placementDecision = 5; // length of ship that is about to be placed
 	private int placementTurn = 0;
-	private int feedback = 0;
+
 	Hashtable<Integer,Button> mappingDict = new Hashtable<Integer, Button>();
 	
 
 	@FXML
 	private void setupAction(ActionEvent e) 
 	{
-		System.out.println(((Node)e.getSource()).getScene().toString());
 		//START OF "SPAIN"[1:]
 		mappingDict.put(0,button0);
 		mappingDict.put(1,button1);
@@ -267,16 +260,11 @@ public class SampleController {
 			if (length != placementDecision) {
 				validCoordinates = false;
 				// tell user that these coordinates are invalid
-				feedback = 1;
-				settingText(feedback);
-				
 			}
 		}
 		
 		// coordinates are good
 		if (validCoordinates) {
-			feedback = 0;
-			settingText(feedback);
 			row_start -= 1;
 			col_start -=1;
 			row_end -=1;
@@ -312,6 +300,33 @@ public class SampleController {
 				}
 			}
 			placementDecision--;
+			
+			/*int[] pos = {Integer.parseInt(temp_pos[0]),Integer.parseInt(temp_pos[1])};
+			switch(placementDecision)
+			{
+			case 0{
+				
+			}
+			
+			case 1{
+				
+			}
+			
+			case 2{
+				
+			}
+			
+			case 3{
+				
+			}
+			
+			case 4{
+				
+			}
+			
+			case 5{
+				placementDecision = 0;
+			}*/
 			System.out.println(Arrays.toString(temp_pos_st));
 			System.out.println(Arrays.toString(temp_pos_end));
 			}
@@ -668,16 +683,5 @@ public class SampleController {
 		posToNum.put(array63, 63);
 		return posToNum;
 	}
-
-	private void settingText(int i) 
-	{
-		if(i == 0)
-		{
-		feedbackBox.setText(" ");
-		return;
-		}
-		feedbackBox.setText("Invalid Coordinate");
-	}
 	
 }
-

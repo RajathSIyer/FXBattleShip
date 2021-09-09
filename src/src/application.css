@@ -1,11 +1,13 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 .pane
 {
-	-fx-background-image: url('ocean.jpeg');
-}
-.mainPane
-{
 	-fx-background-image: url('destroyer.jpg');
+}
+
+.title
+{
+/*-fx-font-family:'Bangers', cursive;*/
+	-fx-font:'Rampart One', cursive;
 }
 .button
 {
@@ -15,17 +17,6 @@
     -fx-background-radius: 30;
     -fx-background-insets: 0;
     -fx-text-fill: white;	
-    -fx-font-size: 24px;
-	
-}
-.turnbutton
-{
-	
-	-fx-font-family:'Rampart One', cursive;
-	-fx-background-color: linear-gradient(#09c6f9, #045de9);
-    -fx-background-radius: 30;
-    -fx-background-insets: 0;
-    -fx-text-fill: white;	
-    -fx-font-size: 18px;
+    -fx-font-size: 32px;
 	
 }
