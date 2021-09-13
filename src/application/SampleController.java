@@ -287,6 +287,8 @@ public class SampleController {
 			temp_pos_end = prompt.getText().split(";")[1].split(",");
 			validCoordinates = true;
 		} catch (Exception f) {
+			feedback = 1;
+			settingText(feedback);
 			validCoordinates = false;
 		}
 		
@@ -297,9 +299,14 @@ public class SampleController {
 				row_end = Integer.parseInt(temp_pos_end[0]);
 				col_start = Integer.parseInt(temp_pos_st[1]);
 				col_end = Integer.parseInt(temp_pos_end[1]);
-				// if (((row_start != row_end) ^ (col_start != col_end)) && validCoordinates(row_start, row_end, col_start, col_end))
+				if ((row_start != row_end) && (col_start != col_end)) {
+					validCoordinates = false;
+					feedback = 1;
+				}
 				break;
 			} catch (Exception f) {
+				validCoordinates = false;
+				feedback = 1;
 				System.out.println("Invalid coordinates. Try again: ");
 			}
 		}
@@ -308,6 +315,7 @@ public class SampleController {
 		if (!validCoordinates || (!validCoordinates(row_start, row_end, col_start, col_end))) {
 			// tell user that these coordinates are invalid
 			System.out.println("Coordinates are invalid. :/");
+			feedback = 1;
 		} else {
 			if (row_start == row_end) {
 				length = Math.abs(col_end - col_start) + 1;  // horizontal
@@ -320,12 +328,13 @@ public class SampleController {
 				validCoordinates = false;
 				// tell user that these coordinates are invalid
 				feedback = 1;
-				settingText(feedback);
+				
 				
 			}
 		}
 		
-		// coordinates are good
+		settingText(feedback);
+		// if coordinates are good
 		if (validCoordinates) {
 			feedback = 0;
 			settingText(feedback);
@@ -364,7 +373,10 @@ public class SampleController {
 				}
 			}
 			placementDecision--;
-			prompt.setText(" ");
+			prompt.setText("");
+			if (placementDecision == 0) {
+				feedbackBox.setText("Press End Turn");
+			}
 		
 			System.out.println(Arrays.toString(temp_pos_st));
 			System.out.println(Arrays.toString(temp_pos_end));
@@ -725,12 +737,15 @@ public class SampleController {
 
 	private void settingText(int i) 
 	{
-		if(i == 0)
-		{
-		feedbackBox.setText(" ");
-		return;
+		if(i == 0){
+			feedbackBox.setText("");
+			return;
 		}
-		feedbackBox.setText("Invalid Coordinate");
+		if (placementDecision > 0) {
+			feedbackBox.setText("Invalid Coordinate. Ship must be of length " + placementDecision);
+		} else {
+			feedbackBox.setText("Press End Turn");
+		}
 	}
 	
 }

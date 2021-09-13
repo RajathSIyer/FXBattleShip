@@ -296,9 +296,9 @@
          </font>
       </TextArea>
       <Button fx:id="submitButton" layoutX="506.0" layoutY="786.0" mnemonicParsing="false" onAction="#setupAction" prefHeight="57.0" prefWidth="269.0" stylesheets="@application.css" text="Enter Coordinate" />
-      <TextArea fx:id="feedbackBox" layoutX="14.0" layoutY="779.0" prefHeight="47.0" prefWidth="461.0" promptText="This is the feedback box">
+      <TextArea fx:id="feedbackBox" layoutX="14.0" layoutY="779.0" prefHeight="47.0" prefWidth="461.0">
          <font>
-            <Font size="24.0" />
+            <Font size="21.0" />
          </font>
       </TextArea>
       <Button fx:id="endTurn2" layoutX="846.0" layoutY="786.0" mnemonicParsing="false" onAction="#switchPlayerScene" prefHeight="57.0" prefWidth="150.0" styleClass="turnbutton" stylesheets="@application.css" text="End Turn" />
