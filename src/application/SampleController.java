@@ -1,12 +1,17 @@
 package application;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 
 
 public class SampleController {
@@ -145,22 +150,58 @@ public class SampleController {
 	@FXML
 	private TextArea feedbackBox;
 	@FXML 
-	private Button endTurnButton;
+	private Button endTurn;
+	@FXML 
+	private Button endTurn2;
 	
+	private Stage stage;
+	private Scene scene;
+	private Parent root;
+	private int sceneSwitch = 0;
 	private int placementDecision = 5; // length of ship that is about to be placed
 	private int placementTurn = 0;
 	private int feedback = 0;
 	Hashtable<Integer,Button> mappingDict = new Hashtable<Integer, Button>();
 	
+
 	@FXML
-	private void handleEndTurn(ActionEvent e) {
-		// maybe move this code to setupAction
-		System.out.println("Clicked end turn.");
-		SceneController a = new SceneController();
-		try {
-			a.switchPlayerScene(e);
-		} catch (Exception f) {
-			System.out.println("Switching scenes didn't work.");
+	public void switchScene(ActionEvent event) throws IOException
+	{
+			System.out.println(((Node)event.getSource()).getScene().toString());
+			root = FXMLLoader.load(getClass().getResource("PlayerOne.fxml"));
+			Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			Scene scene = new Scene(root,1025,884);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			
+			primaryStage.setScene(scene);
+			primaryStage.show();
+			
+		
+	}
+	@FXML
+	public void switchPlayerScene(ActionEvent event) throws IOException
+	{
+		if (placementDecision == 0)
+		{
+			if (event.getSource() == endTurn)
+			{
+			System.out.println("here");	
+			root = FXMLLoader.load(getClass().getResource("PlayerTwo.fxml"));
+			
+			sceneSwitch = 1;
+			}
+			else {
+			System.out.println("here2");
+			sceneSwitch = 0;
+			root = FXMLLoader.load(getClass().getResource("PlayerOne.fxml"));
+			}
+			System.out.println(root);
+			Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			Scene scene = new Scene(root,1025,884);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			prompt.setPromptText("Enter the start and end position for your ship of length"+placementDecision+"(row, col)");
+			primaryStage.setScene(scene);
+			primaryStage.show();
 		}
 		
 	}
@@ -169,7 +210,6 @@ public class SampleController {
 	private void setupAction(ActionEvent e) 
 	{
 		System.out.println(((Node)e.getSource()).getScene().toString());
-		System.out.println(e.getSource());
 		//START OF "SPAIN"[1:]
 		mappingDict.put(0,button0);
 		mappingDict.put(1,button1);
@@ -238,7 +278,6 @@ public class SampleController {
 		HashMap<int[], Integer> posToNum = generatePosToNumDict();
 		//END OF "SPAIN"[1:]
 		System.out.println(mappingDict.get(23).getClass());
-		
 		String[] temp_pos_st = new String[2];	
 		String[] temp_pos_end = new String[2];
 		boolean validCoordinates;
@@ -249,8 +288,6 @@ public class SampleController {
 			validCoordinates = true;
 		} catch (Exception f) {
 			validCoordinates = false;
-			feedback = 1;
-			settingText(feedback);
 		}
 		
 		int row_start = 0, row_end = 0, col_start = 0, col_end = 0;
@@ -263,19 +300,13 @@ public class SampleController {
 				// if (((row_start != row_end) ^ (col_start != col_end)) && validCoordinates(row_start, row_end, col_start, col_end))
 				break;
 			} catch (Exception f) {
-				validCoordinates = false;
 				System.out.println("Invalid coordinates. Try again: ");
-				feedback = 1;
-				settingText(feedback);
 			}
 		}
 		int length;
 		boolean horizontalShip = false;
 		if (!validCoordinates || (!validCoordinates(row_start, row_end, col_start, col_end))) {
 			// tell user that these coordinates are invalid
-			validCoordinates = false;
-			feedback = 1;
-			settingText(feedback);
 			System.out.println("Coordinates are invalid. :/");
 		} else {
 			if (row_start == row_end) {
@@ -294,7 +325,7 @@ public class SampleController {
 			}
 		}
 		
-		// if coordinates are good
+		// coordinates are good
 		if (validCoordinates) {
 			feedback = 0;
 			settingText(feedback);
@@ -333,13 +364,10 @@ public class SampleController {
 				}
 			}
 			placementDecision--;
+			prompt.setText(" ");
+		
 			System.out.println(Arrays.toString(temp_pos_st));
 			System.out.println(Arrays.toString(temp_pos_end));
-			if (placementDecision == 0) {
-				// this player has placed all their ships
-				System.out.println("You have placed all 5 ships.");
-				// wait for them to click End turn?
-			}
 			}
 		}
 	
@@ -702,10 +730,8 @@ public class SampleController {
 		feedbackBox.setText(" ");
 		return;
 		}
-		feedbackBox.setText("Invalid Coordinate. Ship must be of length " + placementDecision);
+		feedbackBox.setText("Invalid Coordinate");
 	}
-	
-	
 	
 }
 

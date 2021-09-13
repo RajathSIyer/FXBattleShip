@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="884.0" prefWidth="1025.0" styleClass="pane" stylesheets="@application.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<Pane prefHeight="884.0" prefWidth="1025.0" styleClass="pane" stylesheets="@application2.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <children>
       <GridPane layoutX="72.0" layoutY="20.0" prefHeight="590.0" prefWidth="842.0" style="-fx-grid-lines-visible: True;" stylesheets="@application.css">
         <columnConstraints>
@@ -290,16 +290,17 @@
                </font></Button>
          </children>
       </GridPane>
-      <TextArea fx:id="prompt" layoutX="13.0" layoutY="634.0" prefHeight="130.0" prefWidth="986.0" promptText="Enter the start and end position of your ship (row,col)        EX: 2,3;5,1">
+      <TextArea fx:id="prompt" layoutX="13.0" layoutY="634.0" prefHeight="130.0" prefWidth="986.0" promptText="P2 : Enter the start and end position of your ship (row,col)    EX: 2,3;5,1 ">
          <font>
             <Font size="36.0" />
          </font>
       </TextArea>
-      <Button fx:id="submitButton" layoutX="568.0" layoutY="786.0" mnemonicParsing="false" onAction="#setupAction" prefHeight="57.0" prefWidth="269.0" text="Enter Coordinate" />
+      <Button fx:id="submitButton" layoutX="506.0" layoutY="786.0" mnemonicParsing="false" onAction="#setupAction" prefHeight="57.0" prefWidth="269.0" stylesheets="@application.css" text="Enter Coordinate" />
       <TextArea fx:id="feedbackBox" layoutX="14.0" layoutY="779.0" prefHeight="47.0" prefWidth="461.0" promptText="This is the feedback box">
          <font>
             <Font size="24.0" />
          </font>
       </TextArea>
+      <Button fx:id="endTurn2" layoutX="846.0" layoutY="786.0" mnemonicParsing="false" onAction="#switchPlayerScene" prefHeight="57.0" prefWidth="150.0" styleClass="turnbutton" stylesheets="@application.css" text="End Turn" />
    </children>
 </Pane>
